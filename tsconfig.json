@@ -8,7 +8,6 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
     "target": "es5",
     "lib": [
