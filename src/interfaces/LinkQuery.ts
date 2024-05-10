@@ -13,14 +13,14 @@ export interface ILinkQuery {
   finishedDate?: boolean
   host?: boolean
   jobUUIDs?: number[]
-  maxResults?: number
+  maxResults?: number // max number of results to return
   packageUUIDs?: number[]
   password?: boolean
   priority?: boolean
   running?: boolean
   skipped?: boolean
   speed?: boolean
-  startAt?: number
+  startAt?: number // to be used with maxResults to paginate
   status?: boolean
   url?: boolean
 }

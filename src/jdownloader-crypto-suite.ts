@@ -58,60 +58,55 @@ export class JDownloaderCryptoSuite {
   /**
    * Connect to MyJDownloader with the credentils provided in the constructor
    */
-  public connect() {
-    return this.callServer('/my/connect', this.loginSecret, {
+  public async connect() {
+    const data = await this.callServer('/my/connect', this.loginSecret, {
       appkey: this.appKey,
       email: this.email
-    }).then((data: IConnectResponse) => {
-      this.sessionToken = data.sessiontoken
-      this.regainToken = data.regaintoken
-
-      this.serverEncryptionToken = createEncryptionToken(
-        this.loginSecret,
-        this.sessionToken
-      )
-      this.deviceEncryptionToken = createEncryptionToken(
-        this.deviceSecret,
-        this.sessionToken
-      )
     })
+    this.sessionToken = data.sessiontoken
+    this.regainToken = data.regaintoken
+    this.serverEncryptionToken = createEncryptionToken(
+      this.loginSecret,
+      this.sessionToken
+    )
+    this.deviceEncryptionToken = createEncryptionToken(
+      this.deviceSecret,
+      this.sessionToken
+    )
   }
 
   /**
    * Reconnects to MyJDownloader with the credentils provided in the constructor
    */
-  public reconnect() {
-    return this.callServer('/my/reconnect', this.serverEncryptionToken, {
+  public async reconnect() {
+    const data = await this.callServer('/my/reconnect', this.serverEncryptionToken, {
       appkey: this.appKey,
       sessiontoken: this.sessionToken,
       regaintoken: this.regainToken // tslint:disable-line:object-literal-sort-keys
-    }).then((data: IConnectResponse) => {
-      this.sessionToken = data.sessiontoken
-      this.regainToken = data.regaintoken
-
-      this.serverEncryptionToken = createEncryptionToken(
-        this.serverEncryptionToken,
-        this.sessionToken
-      )
-      this.deviceEncryptionToken = createEncryptionToken(
-        this.deviceSecret,
-        this.sessionToken
-      )
     })
+    this.sessionToken = data.sessiontoken
+    this.regainToken = data.regaintoken
+    this.serverEncryptionToken = createEncryptionToken(
+      this.serverEncryptionToken,
+      this.sessionToken
+    )
+    this.deviceEncryptionToken = createEncryptionToken(
+      this.deviceSecret,
+      this.sessionToken
+    )
   }
 
   /**
    * Discconects from JDownloaderAPI
    */
-  public disconnect() {
-    return this.callServer('/my/disconnect', this.serverEncryptionToken, {
+  public async disconnect() {
+    await this.callServer('/my/disconnect', this.serverEncryptionToken, {
       sessiontoken: this.sessionToken
-    }).then(() => {
-      this.sessionToken = null
-      this.regainToken = null
-      this.serverEncryptionToken = null
-      this.deviceEncryptionToken = null
     })
+    this.sessionToken = null
+    this.regainToken = null
+    this.serverEncryptionToken = null
+    this.deviceEncryptionToken = null
   }
 
   /**

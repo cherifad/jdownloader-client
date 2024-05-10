@@ -26,13 +26,12 @@ export class JDownloaderClient extends JDownloaderCryptoSuite {
    * [Official docs](https://my.jdownloader.org/developers/#tag_143)
    * @param {string} deviceId The ID of the device
    */
-  public downloadsQueryLinks(
+  public async downloadsQueryLinks(
     deviceId: string,
     options: ILinkQuery = {}
   ): Promise<IDownloadLink[]> {
-    return this.callDevice('/downloadsV2/queryLinks', deviceId, options).then(
-      response => response.data
-    )
+    const response = await this.callDevice('/downloadsV2/queryLinks', deviceId, options)
+    return response.data
   }
 
   /**
@@ -41,27 +40,26 @@ export class JDownloaderClient extends JDownloaderCryptoSuite {
    * [Official docs](https://my.jdownloader.org/developers/#tag_267)
    * @param {string} deviceId The ID of the device
    */
-  public linkGrabberQueryLinks(
+  public async linkGrabberQueryLinks(
     deviceId: string,
     options: ICrawledLinkQuery = {}
   ): Promise<ICrawledLink[]> {
-    return this.callDevice('/linkgrabberv2/queryLinks', deviceId, options).then(
-      response => response.data
-    )
+    const response = await this.callDevice('/linkgrabberv2/queryLinks', deviceId, options)
+    return response.data
   }
 
   /**
-   * TODO: Document this
-   *
+   * Retrieves the direct connection information for a specific device.
+   * @param deviceId The ID of the device.
+   * @returns A Promise that resolves to an object containing the direct connection information.
+   * 
    * [Official docs](https://my.jdownloader.org/developers/#tag_80)
-   * @param deviceId The ID of the device
    */
-  public getDirectConnectionInfos(
+  public async getDirectConnectionInfos(
     deviceId: string
   ): Promise<IDirectConnectionInfos> {
-    return this.callDevice('/device/getDirectConnectionInfos', deviceId).then(
-      response => response.data
-    )
+    const response = await this.callDevice('/device/getDirectConnectionInfos', deviceId)
+    return response.data
   }
 
   /**
@@ -70,26 +68,28 @@ export class JDownloaderClient extends JDownloaderCryptoSuite {
    * [Official docs](https://my.jdownloader.org/developers/#tag_245)
    * @param deviceId The ID of the device
    */
-  public linkGrabberAddLinks(
+  public async linkGrabberAddLinks(
     deviceId: string,
     options: IAddLinksQuery
   ): Promise<ILinkCollectingJob> {
-    return this.callDevice('/linkgrabberv2/addLinks', deviceId, {...options, links: options.links.join(' ')}).then(
-      response => response.data
-    )
+    const response = await this.callDevice('/linkgrabberv2/addLinks', deviceId, { ...options, links: options.links.join(' ') })
+    return response.data
   }
 
   /**
-   * TODO: document this
+   * Queries the packages for downloads.
    *
+   * @param deviceId - The ID of the device.
+   * @param options - The query options.
+   * @returns A promise that resolves to an array of file packages.
+   * 
    * [Official docs](https://my.jdownloader.org/developers/#tag_146)
    */
-  public downloadsQueryPackages(
+  public async downloadsQueryPackages(
     deviceId: string,
     options: IPackageQuery = {}
   ): Promise<IFilePackage[]> {
-    return this.callDevice('/downloadsV2/queryPackages', deviceId, options).then(
-      response => response.data
-    )
+    const response = await this.callDevice('/downloadsV2/queryPackages', deviceId, options)
+    return response.data
   }
 }
