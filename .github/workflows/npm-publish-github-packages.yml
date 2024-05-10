@@ -6,7 +6,7 @@ name: Node.js Package
 on:
   push:
     branches:
-      - main # Change this to your default branch
+      - master # Change this to your default branch
 
 jobs:
   build:
